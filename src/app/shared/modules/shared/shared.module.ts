@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MainInterceptorService } from 'src/app/main-interceptor.service';
 import { CommonModule } from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatGridListModule} from '@angular/material/grid-list';
@@ -28,6 +30,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LocalStorageService } from '../../services/local-storage.service';
 
 
 @NgModule({
@@ -63,6 +66,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatExpansionModule,
     MatProgressSpinnerModule,
 
-  ]
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MainInterceptorService,
+      multi: true,
+    },
+    LocalStorageService
+  ],
 })
 export class SharedModule { }
