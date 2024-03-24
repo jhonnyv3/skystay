@@ -1,0 +1,25 @@
+.autocomplete {
+    position: relative;
+    display: flex;
+}
+
+.result {
+    position: absolute;
+    top: 70%;
+    left: 0;
+    width: 100%;
+
+}
+
+.result .item {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f1f1;
+    padding: 1em 0;
+}
+
+.result .title {
+    font-size: 1.2em;
+    font-weight: 600;
+}
