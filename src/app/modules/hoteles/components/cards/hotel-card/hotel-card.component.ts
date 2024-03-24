@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 @Component({
   selector: 'app-hotel-card',
@@ -7,12 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HotelCardComponent implements OnInit {
   @Input() hotel: any;
-
-  constructor() {
+  @Output() onDelete = new EventEmitter<string>();
+  constructor(private storage: LocalStorageService) {
 
   }
 
   ngOnInit(): void {
     console.log(this.hotel)
+  }
+
+  delete(hotelId: string) {
+    this.onDelete.emit(hotelId);
   }
 }

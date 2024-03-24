@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-hotel-list',
@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class HotelListComponent implements OnInit {
   @Input() hoteles: any;
+  @Output() id = new EventEmitter<string>();
 
   constructor() {
 
@@ -14,5 +15,9 @@ export class HotelListComponent implements OnInit {
 
   ngOnInit(): void {
     
+  }
+
+  getID(id: string) {
+    this.id.emit(id);
   }
 }

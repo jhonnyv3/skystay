@@ -20,3 +20,9 @@ export interface Pois {
     entityId:   string;
     class:      string;
 }
+
+export interface searchForm {
+    search: Autocomplete;
+    llegada: string;
+    salida: string;
+}

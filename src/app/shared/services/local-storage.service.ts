@@ -23,4 +23,22 @@ export class LocalStorageService {
   public clearData() {
     localStorage.clear();
   }
+
+  public filterHotel(hotel: any) {
+    let Keys = Object.keys(localStorage);
+    if (Keys.length) {
+      let filterKeys = Keys
+      .filter(url => url.includes(`https://sky-scanner3.p.rapidapi.com/hotels/search?entityId`));
+
+      console.log(filterKeys)
+      if (filterKeys.length) {
+        filterKeys.map(url => {
+          return this.getData(url).map((data: any) => {
+            debugger;
+            console.log("data hotel", data)
+          });
+        });
+      }
+    }
+  }
 }

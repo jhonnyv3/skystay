@@ -52,10 +52,10 @@ export class HotelService extends UtilService {
         this.storage.saveData(url, response);
       }),
       map((response: any) => {
-        debugger;
         if (response && response?.data?.results?.searchSummary?.total) {
           return response;
         }
+        this.storage.saveData(url, mock);
         return mock;
       })
     );    

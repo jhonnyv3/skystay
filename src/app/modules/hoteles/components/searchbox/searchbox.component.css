@@ -3,6 +3,12 @@
     display: flex;
 }
 
+.autocomplete button {
+    align-self: center;
+    margin: 7px;
+    cursor: pointer;
+}
+
 .result {
     position: absolute;
     top: 70%;
