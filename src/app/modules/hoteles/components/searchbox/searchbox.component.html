@@ -1,25 +1,53 @@
-<form>
+<form  [formGroup]="searchForm" novalidate autocomplete="off">
     <div class="autocomplete">
         <mat-form-field class="w100">
             <mat-label>Buscar hoteles</mat-label>
-            <input type="text" placeholder="Ingresa un lugar" matInput [formControl]="search" (change)="onchangeAutocomplete()"
-                (keydown.enter)="onautocomplete()">
-            <mat-icon matPrefix>search</mat-icon>
+            <input 
+                type="text" 
+                placeholder="Ingresa un lugar" 
+                matInput 
+                formControlName="search" 
+                (change)="onchangeAutocomplete()"
+                (keydown.enter)="onautocomplete()"
+            >
+
+            <mat-error *ngIf="
+                searchForm.get('search')?.invalid && 
+                (searchForm.get('search')?.dirty || searchForm.get('search')?.touched)
+            ">
+                <span *ngIf="searchForm.get('search')?.errors?.['required']">La ciudad es obligatoria.</span>
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Llegada</mat-label>
-            <input matInput [min]="minArrival" [matDatepicker]="checkin" [formControl]="llegada" (dateChange)="onChangeLlegada()">
+            <input matInput [min]="minArrival" [matDatepicker]="checkin" formControlName="llegada" (dateChange)="onChangeLlegada()">
             <mat-datepicker-toggle matIconSuffix [for]="checkin"></mat-datepicker-toggle>
             <mat-datepicker #checkin></mat-datepicker>
+            <mat-error *ngIf="
+                searchForm.get('llegada')?.invalid && 
+                (searchForm.get('llegada')?.dirty || searchForm.get('llegada')?.touched)
+            ">
+                <span *ngIf="searchForm.get('llegada')?.errors?.['required']">Escoge una fecha.</span>
+            </mat-error>            
         </mat-form-field>
 
         <mat-form-field>
             <mat-label>Sálida</mat-label>
-            <input matInput [min]="minDepart" [matDatepicker]="checkout" [formControl]="salida" (dateChange)="onChangeSalida()">
+            <input matInput [min]="minDepart" [matDatepicker]="checkout" formControlName="salida" (dateChange)="onChangeSalida()">
             <mat-datepicker-toggle matIconSuffix [for]="checkout"></mat-datepicker-toggle>
             <mat-datepicker #checkout></mat-datepicker>
+            <mat-error *ngIf="
+                searchForm.get('salida')?.invalid && 
+                (searchForm.get('salida')?.dirty || searchForm.get('salida')?.touched)
+            ">
+                <span *ngIf="searchForm.get('salida')?.errors?.['required']">Escoge una fecha.</span>
+            </mat-error>             
         </mat-form-field>
+
+        <button mat-icon-button (click)="sendForm()" [disabled]="searchForm.invalid">
+            <mat-icon>search</mat-icon>
+        </button>
 
         <div class="result" *ngIf="showOptions">
             <h2><mat-icon>location_on</mat-icon> Lugares</h2>

@@ -1,8 +1,8 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HotelService } from '../../services/hotel/hotel.service';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelAutoComplete } from '../../interfaces/hotel-endpoints-params';
-import { Autocomplete } from '../../interfaces/dto/autocomplete.interface';
+import { Autocomplete, searchForm } from '../../interfaces/dto/autocomplete.interface';
 import * as moment from 'moment';
 
 @Component({
@@ -12,18 +12,23 @@ import * as moment from 'moment';
 })
 export class SearchboxComponent implements OnInit{
 
-  @Output() onSearch           = new EventEmitter<Autocomplete>();
-  @Output() OnArrival          = new EventEmitter<string>();
-  @Output() onDeparture        = new EventEmitter<string>();
+  @Output() onSearch           = new EventEmitter<searchForm>();
   options: Array<Autocomplete> = [];
-  llegada     = new FormControl('');
-  salida      = new FormControl('');
-  search      = new FormControl('');
+  searchForm: FormGroup = this.fb.group({
+    search : [{ value: '', disabled: false }, Validators.required],
+    llegada: [{ value: '', disabled: false }, Validators.required],
+    salida : [{ value: '', disabled: false }, Validators.required],
+  });
+
+  searchParam: Autocomplete = {} as Autocomplete;
+  llegadaParam = '';
+  salidaParam  = '';
+
   showOptions = false;
   minArrival  = new Date(moment().add(5, 'd').toString());
   minDepart   = new Date(moment().add(6, 'd').toString());
 
-  constructor(private hotelService: HotelService) {
+  constructor(private hotelService: HotelService, public fb: FormBuilder) {
 
   }
 
@@ -32,7 +37,7 @@ export class SearchboxComponent implements OnInit{
   }
 
   onchangeAutocomplete() {
-    if (!this.search.value) {
+    if (!this.searchForm.controls['search'].value) {
       this.options = [];
       return;
     }
@@ -40,9 +45,9 @@ export class SearchboxComponent implements OnInit{
   }
 
   onautocomplete() {
-    if (this.search.value && this.search.value?.length > 3) {
+    if (this.searchForm.controls['search'].value && this.searchForm.controls['search'].value?.length > 3) {
       const params: HotelAutoComplete = {
-        query: this.search.value
+        query: this.searchForm.controls['search'].value
       };
 
       this.hotelService.autocomplete(params).subscribe(result => {
@@ -57,20 +62,30 @@ export class SearchboxComponent implements OnInit{
 
   selectItem(item: Autocomplete) {
     this.showOptions = false;
-    this.onSearch.emit(item);
+    this.searchParam = item;
   }
 
   onChangeLlegada() {
-    if (this.llegada.value) {
-      const llegadaFormatted = moment(this.llegada.value).format('YYYY-MM-DD');
-      this.OnArrival.emit(llegadaFormatted);
+    if (this.searchForm.controls['llegada'].value) {
+      const llegadaFormatted = moment(this.searchForm.controls['llegada'].value).format('YYYY-MM-DD');
+      this.llegadaParam = llegadaFormatted;
     }
   }
 
   onChangeSalida() {
-    if (this.salida.value) {
-      const salidaFormatted = moment(this.salida.value).format('YYYY-MM-DD');
-      this.onDeparture.emit(salidaFormatted);
+    if (this.searchForm.controls['salida'].value) {
+      const salidaFormatted = moment(this.searchForm.controls['salida'].value).format('YYYY-MM-DD');
+      this.salidaParam = salidaFormatted;
+    }
+  }
+
+  sendForm() {
+    if (this.searchForm.valid) {
+      this.onSearch.emit({
+        search: this.searchParam,
+        llegada: this.llegadaParam,
+        salida: this.salidaParam
+      })
     }
   }
 }

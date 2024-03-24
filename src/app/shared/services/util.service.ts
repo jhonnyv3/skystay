@@ -12,7 +12,7 @@ export class UtilService {
 
   constructor() { }
 
-  protected setParams(params: any): QueryParams {
+  public setParams(params: any): QueryParams {
     const objectToArray = Object.entries(params);
     const arrayFiltered = objectToArray.filter(item => (item[1] !== null && item[1] !== undefined && item[1] !== ''));
     const formObject = Object.fromEntries(arrayFiltered) as QueryParams;
