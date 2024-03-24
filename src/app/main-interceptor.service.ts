@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, finalize } from 'rxjs';
+import { LoaderService } from './shared/services/loader.service';
 
 @Injectable()
 export class MainInterceptorService implements HttpInterceptor {
 
-  constructor() { }
+  constructor(private loader: LoaderService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const clonedRequest = req.clone({
@@ -14,6 +15,12 @@ export class MainInterceptorService implements HttpInterceptor {
         .set('X-RapidAPI-Host', 'sky-scanner3.p.rapidapi.com')
     });
 
-    return next.handle(clonedRequest);
+    this.loader.showOrHide(true);
+    //return next.handle(clonedRequest);
+    return next.handle(clonedRequest).pipe(
+      finalize(() => {
+        this.loader.showOrHide(false);
+      })
+  );    
   }
 }

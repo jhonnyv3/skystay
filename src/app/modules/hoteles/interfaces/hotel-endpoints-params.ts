@@ -44,3 +44,24 @@ export interface reviews {
     tags        ?: string;
 }
 
+export interface similarHotels {
+    hotelId : string;
+    checkin : string;
+    checkout: string;
+    rooms   ?: number;
+    adults  ?: number;
+    market  ?: string;
+    currency?: string;
+    locale  ?: string;
+}
+
+export interface nearbyMap {
+    entityId: string;
+    latitude: string;
+    longitude: string;
+    market  ?: string;
+    currency?: string;
+    locale  ?: string;
+}
+
+

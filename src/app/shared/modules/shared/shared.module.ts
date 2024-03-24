@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { MainInterceptorService } from 'src/app/main-interceptor.service';
 import { CommonModule } from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
@@ -10,6 +10,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatCardModule} from '@angular/material/card';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
@@ -29,15 +30,17 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LocalStorageService } from '../../services/local-storage.service';
-
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
+    FormsModule,
     MatToolbarModule,
     MatGridListModule,
     MatTabsModule,
@@ -65,7 +68,8 @@ import { LocalStorageService } from '../../services/local-storage.service';
     MatListModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
-
+    MatAutocompleteModule,
+    MatNativeDateModule
   ],
   providers: [
     {
@@ -75,5 +79,40 @@ import { LocalStorageService } from '../../services/local-storage.service';
     },
     LocalStorageService
   ],
+  exports: [
+    CommonModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatToolbarModule,
+    MatGridListModule,
+    MatTabsModule,
+    MatStepperModule,
+    MatIconModule,
+    MatBadgeModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatButtonToggleModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
+    MatSliderModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatMenuModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatTreeModule,
+    MatDividerModule,
+    MatListModule,
+    MatExpansionModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatNativeDateModule
+  ]
 })
 export class SharedModule { }

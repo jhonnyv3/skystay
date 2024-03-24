@@ -1,0 +1,32 @@
+<form>
+    <div class="autocomplete">
+        <mat-form-field class="w100">
+            <mat-label>Buscar hoteles</mat-label>
+            <input type="text" placeholder="Ingresa un lugar" matInput [formControl]="search" (change)="onchangeAutocomplete()"
+                (keydown.enter)="onautocomplete()">
+            <mat-icon matPrefix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Llegada</mat-label>
+            <input matInput [min]="minArrival" [matDatepicker]="checkin" [formControl]="llegada" (dateChange)="onChangeLlegada()">
+            <mat-datepicker-toggle matIconSuffix [for]="checkin"></mat-datepicker-toggle>
+            <mat-datepicker #checkin></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Sálida</mat-label>
+            <input matInput [min]="minDepart" [matDatepicker]="checkout" [formControl]="salida" (dateChange)="onChangeSalida()">
+            <mat-datepicker-toggle matIconSuffix [for]="checkout"></mat-datepicker-toggle>
+            <mat-datepicker #checkout></mat-datepicker>
+        </mat-form-field>
+
+        <div class="result" *ngIf="showOptions">
+            <h2><mat-icon>location_on</mat-icon> Lugares</h2>
+            <div class="item" *ngFor="let item of options" (click)="selectItem(item)">
+                <span class="title">{{ item?.entityName }}</span>
+                <span class="place-description" [innerHTML]="item?.highlight?.hierarchy"></span>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,8 @@
+<div class="container">
+    <app-searchbox 
+        (onSearch)="getPlace($event)"
+        (OnArrival)="getllegada($event)"
+        (onDeparture)="getSalida($event)"
+    ></app-searchbox>
+    <app-hotel-list *ngIf="hoteles" [hoteles]="hoteles"></app-hotel-list>
+</div>
